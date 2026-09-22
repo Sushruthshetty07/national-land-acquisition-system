@@ -3,10 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   Shield, User, Bell, ChevronDown, CheckCircle2,
-  ExternalLink, Layers, Sparkles, RefreshCw, Award
+  ExternalLink, Layers, Sparkles, RefreshCw, Award, Menu, X
 } from 'lucide-react';
 
-export default function Navbar({ activeAlertsCount = 5 }) {
+export default function Navbar({ activeAlertsCount = 5, mobileMenuOpen, setMobileMenuOpen }) {
   const { user, role, switchRole, personas, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [personaMenuOpen, setPersonaMenuOpen] = useState(false);
@@ -33,41 +33,50 @@ export default function Navbar({ activeAlertsCount = 5 }) {
         <div className="h-full w-1/3 bg-[#138808]"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Brand Logo & Title */}
-          <div className="flex items-center space-x-3">
-            <Link to="/" className="flex items-center space-x-3 group">
-              <div className="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-400 font-bold text-lg shadow-inner">
+          {/* Left: Mobile Menu Hamburger Button + Brand Logo */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* Mobile Sidebar Hamburger Toggle */}
+            <button
+              onClick={() => setMobileMenuOpen && setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 focus:outline-none"
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+
+            <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-400 font-bold text-base sm:text-lg shadow-inner shrink-0">
                 🏛️
               </div>
-              <div>
-                <div className="text-xs font-semibold tracking-wider text-amber-400 uppercase flex items-center gap-1.5">
-                  <span>Government of India National Portal</span>
+              <div className="truncate">
+                <div className="text-[10px] sm:text-xs font-semibold tracking-wider text-amber-400 uppercase flex items-center gap-1.5 truncate">
+                  <span className="truncate">Government of India Portal</span>
                 </div>
-                <div className="text-base font-bold text-white tracking-tight flex items-center gap-2">
-                  <span>Real-Time National Land Acquisition System</span>
-                  <span className="text-[10px] bg-blue-700/60 px-1.5 py-0.5 rounded border border-blue-400/30 text-blue-200 font-mono font-normal">RFCTLARR 2013</span>
+                <div className="text-xs sm:text-sm md:text-base font-bold text-white tracking-tight flex items-center gap-1.5 truncate">
+                  <span className="truncate">National Land System</span>
+                  <span className="hidden lg:inline text-[10px] bg-blue-700/60 px-1.5 py-0.5 rounded border border-blue-400/30 text-blue-200 font-mono font-normal">RFCTLARR 2013</span>
                 </div>
               </div>
             </Link>
           </div>
 
           {/* Right Header Utilities: Persona Switcher, Alerts */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             {/* Quick Persona Switcher */}
             <div className="relative">
               <button
                 onClick={() => setPersonaMenuOpen(!personaMenuOpen)}
-                className="flex items-center space-x-2 text-xs bg-slate-800/80 hover:bg-slate-700/90 text-amber-300 px-3 py-1.5 rounded-lg border border-amber-500/30 transition shadow-sm"
+                className="flex items-center space-x-1.5 sm:space-x-2 text-xs bg-slate-800/80 hover:bg-slate-700/90 text-amber-300 px-2.5 sm:px-3 py-1.5 rounded-lg border border-amber-500/30 transition shadow-sm"
                 title="Switch official persona to test role-based access control"
               >
                 <span className="text-sm">{currentRoleInfo.icon}</span>
-                <div className="text-left hidden sm:block">
+                <div className="text-left hidden md:block">
                   <span className="block text-[10px] text-slate-400 leading-none">Active Persona:</span>
-                  <span className="font-semibold text-white">{currentRoleInfo.name}</span>
+                  <span className="font-semibold text-white truncate max-w-[120px] block">{currentRoleInfo.name}</span>
                 </div>
-                <ChevronDown className="w-3.5 h-3.5 ml-1 text-slate-400" />
+                <ChevronDown className="w-3.5 h-3.5 ml-0.5 sm:ml-1 text-slate-400" />
               </button>
 
               {personaMenuOpen && (
@@ -108,7 +117,7 @@ export default function Navbar({ activeAlertsCount = 5 }) {
             {/* SLA Alerts Button */}
             <Link
               to="/alerts"
-              className="relative p-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg transition"
+              className="relative p-1.5 sm:p-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg transition"
               title="Statutory Alerts & SLA Violations"
             >
               <Bell className="w-5 h-5" />

@@ -5,10 +5,10 @@ import { ROLE_CONFIGS } from '../../config/rolesConfig';
 import {
   LayoutDashboard, MapPin, FolderKanban, FileCheck,
   Coins, Home, FileText, AlertTriangle, BrainCircuit,
-  BarChart3, ShieldCheck, Smartphone, Award
+  BarChart3, ShieldCheck, Smartphone, Award, X
 } from 'lucide-react';
 
-export default function Sidebar() {
+export default function Sidebar({ mobileMenuOpen, setMobileMenuOpen }) {
   const { role, user } = useAuth();
   const roleConfig = ROLE_CONFIGS[role] || ROLE_CONFIGS.SUPER_ADMIN;
 
@@ -94,21 +94,37 @@ export default function Sidebar() {
     roleConfig.allowedNav.includes(item.to)
   );
 
-  return (
-    <aside className="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0 min-h-[calc(100vh-4.25rem)] shadow-sm">
+  const handleNavClick = () => {
+    if (setMobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
+  };
+
+  const navContent = (
+    <div className="flex flex-col h-full bg-white border-r border-slate-200 shadow-sm w-64 min-h-full">
       {/* Role Banner Badge */}
-      <div className="p-3 border-b border-slate-200 bg-slate-50">
-        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-          Role Scope
+      <div className="p-3 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+        <div>
+          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            Role Scope
+          </div>
+          <div className="text-xs font-bold text-slate-900 truncate max-w-[170px]">
+            {user?.name || 'Authorized Official'}
+          </div>
+          <div className="mt-1">
+            <span className="inline-block text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-900 border border-blue-200 uppercase">
+              {roleConfig.scopeBadge}
+            </span>
+          </div>
         </div>
-        <div className="text-xs font-bold text-slate-900 truncate">
-          {user?.name || 'Authorized Official'}
-        </div>
-        <div className="mt-1">
-          <span className="inline-block text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-900 border border-blue-200 uppercase">
-            {roleConfig.scopeBadge}
-          </span>
-        </div>
+        {setMobileMenuOpen && (
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="md:hidden p-1.5 text-slate-400 hover:text-slate-700 rounded-lg"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
       </div>
 
       <nav className="flex-1 p-2 space-y-1 overflow-y-auto">
@@ -119,6 +135,7 @@ export default function Sidebar() {
               key={item.to}
               to={item.to}
               end={item.to === '/'}
+              onClick={handleNavClick}
               className={({ isActive }) =>
                 `group flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition ${
                   isActive
@@ -158,6 +175,31 @@ export default function Sidebar() {
         <div className="font-semibold text-slate-700">National Portal Compliance</div>
         <div>RFCTLARR 2013 Statutory Framework</div>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Sidebar (hidden on mobile, visible on md and up) */}
+      <aside className="hidden md:flex shrink-0 min-h-[calc(100vh-4.25rem)]">
+        {navContent}
+      </aside>
+
+      {/* Mobile Drawer Overlay (visible on mobile when open) */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 flex md:hidden">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+
+          {/* Sliding drawer content */}
+          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-white z-10">
+            {navContent}
+          </div>
+        </div>
+      )}
+    </>
   );
 }

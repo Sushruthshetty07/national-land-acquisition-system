@@ -22,13 +22,14 @@ import LoginPage from './pages/LoginPage';
 
 function Layout({ children }) {
   const { user } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col font-['Inter',sans-serif]">
-      <Navbar activeAlertsCount={5} />
-      <div className="flex-1 flex overflow-hidden">
-        <Sidebar />
-        <main className="flex-1 overflow-y-auto bg-slate-50/70">
+      <Navbar activeAlertsCount={5} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+      <div className="flex-1 flex overflow-hidden relative">
+        <Sidebar mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+        <main className="flex-1 overflow-y-auto bg-slate-50/70 p-2 sm:p-4 md:p-6 lg:p-8">
           {children}
         </main>
       </div>

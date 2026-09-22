@@ -61,59 +61,74 @@ export default function GISMap({
     topo: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png'
   };
 
+  const [legendOpen, setLegendOpen] = useState(false);
+
   return (
-    <div className="relative rounded-xl overflow-hidden border border-slate-300 shadow-sm" style={{ height }}>
+    <div className="relative rounded-xl overflow-hidden border border-slate-300 shadow-sm w-full" style={{ height }}>
       {/* Map Header Floating Toolbar */}
-      <div className="absolute top-3 left-3 z-[1000] bg-white/95 backdrop-blur rounded-lg shadow-md p-2 border border-slate-200 flex items-center space-x-2 text-xs">
-        <span className="font-bold text-slate-800 flex items-center gap-1.5">
-          <MapPin className="w-4 h-4 text-blue-700" />
-          <span>GIS Cadastral Overlay</span>
+      <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-[1000] bg-white/95 backdrop-blur rounded-lg shadow-md p-1.5 sm:p-2 border border-slate-200 flex items-center space-x-1.5 sm:space-x-2 text-[11px] sm:text-xs max-w-[80%] truncate">
+        <span className="font-bold text-slate-800 flex items-center gap-1 shrink-0">
+          <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-700" />
+          <span className="hidden sm:inline">GIS Cadastral Overlay</span>
+          <span className="sm:hidden">GIS Overlay</span>
         </span>
         <span className="text-slate-300">|</span>
-        <span className="text-slate-600">Showing <strong>{parcels.length}</strong> Land Parcels</span>
+        <span className="text-slate-600 truncate"><strong>{parcels.length}</strong> Parcels</span>
       </div>
 
-      {/* Layer Toggle Button */}
-      <div className="absolute top-3 right-3 z-[1000] bg-white/95 backdrop-blur rounded-lg shadow-md p-1 border border-slate-200 flex items-center text-xs">
+      {/* Layer & Legend Toggle Buttons */}
+      <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-[1000] flex items-center space-x-1.5">
         <button
-          onClick={() => setTileMode(tileMode === 'osm' ? 'topo' : 'osm')}
-          className="flex items-center space-x-1.5 px-2.5 py-1 rounded hover:bg-slate-100 font-medium text-slate-700"
-          title="Toggle Map Style"
+          onClick={() => setLegendOpen(!legendOpen)}
+          className="sm:hidden bg-white/95 backdrop-blur px-2 py-1 rounded-lg shadow-md border border-slate-200 text-[11px] font-bold text-slate-700"
         >
-          <Layers className="w-3.5 h-3.5 text-slate-500" />
-          <span className="capitalize">{tileMode === 'osm' ? 'Topographic' : 'Standard'}</span>
+          {legendOpen ? 'Hide Legend' : 'Legend'}
         </button>
+
+        <div className="bg-white/95 backdrop-blur rounded-lg shadow-md p-1 border border-slate-200 flex items-center text-xs">
+          <button
+            onClick={() => setTileMode(tileMode === 'osm' ? 'topo' : 'osm')}
+            className="flex items-center space-x-1 px-2 py-1 rounded hover:bg-slate-100 font-medium text-slate-700 text-[11px] sm:text-xs"
+            title="Toggle Map Style"
+          >
+            <Layers className="w-3.5 h-3.5 text-slate-500" />
+            <span className="capitalize">{tileMode === 'osm' ? 'Topo' : 'Standard'}</span>
+          </button>
+        </div>
       </div>
 
-      {/* Map Legend */}
-      <div className="absolute bottom-4 left-4 z-[1000] bg-white/95 backdrop-blur rounded-xl shadow-lg p-3 border border-slate-200 text-[11px] max-w-xs">
-        <div className="font-bold text-slate-800 uppercase tracking-wider text-[10px] mb-2">
-          Acquisition Status Legend
+      {/* Map Legend (Collapsible on Mobile, Persistent on Desktop) */}
+      <div className={`absolute bottom-3 left-3 sm:bottom-4 sm:left-4 z-[1000] bg-white/95 backdrop-blur rounded-xl shadow-lg p-2.5 sm:p-3 border border-slate-200 text-[10px] sm:text-[11px] max-w-[240px] sm:max-w-xs transition-all ${
+        legendOpen ? 'block' : 'hidden sm:block'
+      }`}>
+        <div className="font-bold text-slate-800 uppercase tracking-wider text-[9px] sm:text-[10px] mb-1.5 flex items-center justify-between">
+          <span>Acquisition Status Legend</span>
+          <button onClick={() => setLegendOpen(false)} className="sm:hidden text-slate-400 font-bold">✕</button>
         </div>
-        <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
-          <div className="flex items-center space-x-1.5">
-            <span className="w-3 h-3 rounded bg-emerald-600 shrink-0"></span>
-            <span className="text-slate-700">Possession Taken</span>
+        <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+          <div className="flex items-center space-x-1">
+            <span className="w-2.5 h-2.5 rounded bg-emerald-600 shrink-0"></span>
+            <span className="text-slate-700 truncate">Possession</span>
           </div>
-          <div className="flex items-center space-x-1.5">
-            <span className="w-3 h-3 rounded bg-teal-600 shrink-0"></span>
-            <span className="text-slate-700">Comp Disbursed</span>
+          <div className="flex items-center space-x-1">
+            <span className="w-2.5 h-2.5 rounded bg-teal-600 shrink-0"></span>
+            <span className="text-slate-700 truncate">DBT Disbursed</span>
           </div>
-          <div className="flex items-center space-x-1.5">
-            <span className="w-3 h-3 rounded bg-blue-600 shrink-0"></span>
-            <span className="text-slate-700">Award Declared</span>
+          <div className="flex items-center space-x-1">
+            <span className="w-2.5 h-2.5 rounded bg-blue-600 shrink-0"></span>
+            <span className="text-slate-700 truncate">Award Declared</span>
           </div>
-          <div className="flex items-center space-x-1.5">
-            <span className="w-3 h-3 rounded bg-purple-600 shrink-0"></span>
-            <span className="text-slate-700">Sec 11 / Sec 19</span>
+          <div className="flex items-center space-x-1">
+            <span className="w-2.5 h-2.5 rounded bg-purple-600 shrink-0"></span>
+            <span className="text-slate-700 truncate">Sec 11 / 19</span>
           </div>
-          <div className="flex items-center space-x-1.5">
-            <span className="w-3 h-3 rounded bg-amber-500 shrink-0"></span>
-            <span className="text-slate-700">Proposed / SIA</span>
+          <div className="flex items-center space-x-1">
+            <span className="w-2.5 h-2.5 rounded bg-amber-500 shrink-0"></span>
+            <span className="text-slate-700 truncate">Proposed / SIA</span>
           </div>
-          <div className="flex items-center space-x-1.5">
-            <span className="w-3 h-3 rounded bg-red-600 shrink-0"></span>
-            <span className="text-slate-700">Disputed / Stay</span>
+          <div className="flex items-center space-x-1">
+            <span className="w-2.5 h-2.5 rounded bg-red-600 shrink-0"></span>
+            <span className="text-slate-700 truncate">Disputed / Stay</span>
           </div>
         </div>
       </div>
