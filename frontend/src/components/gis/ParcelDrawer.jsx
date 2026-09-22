@@ -29,7 +29,7 @@ export default function ParcelDrawer({ parcel, onClose, onRefresh }) {
   };
 
   return (
-    <div className="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-2xl border-l border-slate-200 flex flex-col overflow-hidden animate-slide-left">
+    <div className="fixed inset-y-0 right-0 z-[9999] w-full max-w-md bg-white shadow-2xl border-l border-slate-200 flex flex-col overflow-hidden animate-slide-left">
       {/* Drawer Header */}
       <div className="p-4 bg-gov-navy text-white flex items-center justify-between">
         <div>

@@ -66,7 +66,7 @@ export default function GISMap({
   return (
     <div className="relative rounded-xl overflow-hidden border border-slate-300 shadow-sm w-full" style={{ height }}>
       {/* Map Header Floating Toolbar */}
-      <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-[1000] bg-white/95 backdrop-blur rounded-lg shadow-md p-1.5 sm:p-2 border border-slate-200 flex items-center space-x-1.5 sm:space-x-2 text-[11px] sm:text-xs max-w-[80%] truncate">
+      <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 bg-white/95 backdrop-blur rounded-lg shadow-md p-1.5 sm:p-2 border border-slate-200 flex items-center space-x-1.5 sm:space-x-2 text-[11px] sm:text-xs max-w-[80%] truncate">
         <span className="font-bold text-slate-800 flex items-center gap-1 shrink-0">
           <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-700" />
           <span className="hidden sm:inline">GIS Cadastral Overlay</span>
@@ -77,7 +77,7 @@ export default function GISMap({
       </div>
 
       {/* Layer & Legend Toggle Buttons */}
-      <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-[1000] flex items-center space-x-1.5">
+      <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 flex items-center space-x-1.5">
         <button
           onClick={() => setLegendOpen(!legendOpen)}
           className="sm:hidden bg-white/95 backdrop-blur px-2 py-1 rounded-lg shadow-md border border-slate-200 text-[11px] font-bold text-slate-700"
@@ -98,7 +98,7 @@ export default function GISMap({
       </div>
 
       {/* Map Legend (Collapsible on Mobile, Persistent on Desktop) */}
-      <div className={`absolute bottom-3 left-3 sm:bottom-4 sm:left-4 z-[1000] bg-white/95 backdrop-blur rounded-xl shadow-lg p-2.5 sm:p-3 border border-slate-200 text-[10px] sm:text-[11px] max-w-[240px] sm:max-w-xs transition-all ${
+      <div className={`absolute bottom-3 left-3 sm:bottom-4 sm:left-4 z-10 bg-white/95 backdrop-blur rounded-xl shadow-lg p-2.5 sm:p-3 border border-slate-200 text-[10px] sm:text-[11px] max-w-[240px] sm:max-w-xs transition-all ${
         legendOpen ? 'block' : 'hidden sm:block'
       }`}>
         <div className="font-bold text-slate-800 uppercase tracking-wider text-[9px] sm:text-[10px] mb-1.5 flex items-center justify-between">

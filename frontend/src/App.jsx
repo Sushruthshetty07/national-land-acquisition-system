@@ -25,11 +25,11 @@ function Layout({ children }) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col font-['Inter',sans-serif]">
+    <div className="min-h-screen bg-slate-100 flex flex-col font-['Inter',sans-serif] w-full max-w-full overflow-x-hidden">
       <Navbar activeAlertsCount={5} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
-      <div className="flex-1 flex overflow-hidden relative">
+      <div className="flex-1 flex overflow-hidden relative w-full max-w-full">
         <Sidebar mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
-        <main className="flex-1 overflow-y-auto bg-slate-50/70 p-2 sm:p-4 md:p-6 lg:p-8">
+        <main className="flex-1 overflow-y-auto bg-slate-50/70 p-2.5 sm:p-4 md:p-6 lg:p-8 min-w-0 w-full max-w-full">
           {children}
         </main>
       </div>

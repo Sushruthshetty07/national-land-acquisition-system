@@ -25,34 +25,34 @@ export default function Navbar({ activeAlertsCount = 5, mobileMenuOpen, setMobil
   const currentRoleInfo = roleLabels[role] || { name: role, color: 'bg-slate-800 text-slate-100', icon: '👤' };
 
   return (
-    <header className="sticky top-0 z-40 bg-gov-navy text-white shadow-md">
+    <header className="sticky top-0 z-40 bg-gov-navy text-white shadow-md w-full max-w-full overflow-x-clip">
       {/* Indian National Tricolor Top Stripe */}
-      <div className="h-1.5 w-full flex">
+      <div className="h-1.5 w-full flex max-w-full overflow-hidden">
         <div className="h-full w-1/3 bg-[#FF9933]"></div>
         <div className="h-full w-1/3 bg-white"></div>
         <div className="h-full w-1/3 bg-[#138808]"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 w-full">
         <div className="flex items-center justify-between h-16">
           {/* Left: Mobile Menu Hamburger Button + Brand Logo */}
-          <div className="flex items-center space-x-2 sm:space-x-3">
+          <div className="flex items-center space-x-1.5 sm:space-x-3 truncate min-w-0">
             {/* Mobile Sidebar Hamburger Toggle */}
             <button
               onClick={() => setMobileMenuOpen && setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 focus:outline-none"
+              className="md:hidden p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 focus:outline-none shrink-0"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
 
-            <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-400 font-bold text-base sm:text-lg shadow-inner shrink-0">
+            <Link to="/" className="flex items-center space-x-1.5 sm:space-x-3 group truncate min-w-0">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-400 font-bold text-sm sm:text-lg shadow-inner shrink-0">
                 🏛️
               </div>
-              <div className="truncate">
-                <div className="text-[10px] sm:text-xs font-semibold tracking-wider text-amber-400 uppercase flex items-center gap-1.5 truncate">
-                  <span className="truncate">Government of India Portal</span>
+              <div className="truncate min-w-0">
+                <div className="text-[9px] sm:text-xs font-semibold tracking-wider text-amber-400 uppercase flex items-center gap-1.5 truncate">
+                  <span className="truncate">Govt of India Portal</span>
                 </div>
                 <div className="text-xs sm:text-sm md:text-base font-bold text-white tracking-tight flex items-center gap-1.5 truncate">
                   <span className="truncate">National Land System</span>

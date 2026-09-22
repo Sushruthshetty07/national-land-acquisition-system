@@ -1,5 +1,6 @@
 const API_BASE = import.meta.env.VITE_API_URL;
 const AI_BASE = import.meta.env.VITE_AI_URL;
+
 function getHeaders() {
   const token = localStorage.getItem('token');
   const headers = {
