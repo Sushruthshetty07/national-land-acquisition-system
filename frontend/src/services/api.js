@@ -1,5 +1,5 @@
-const API_BASE = '/api';
-const AI_BASE = '/ai';
+const API_BASE = import.meta.env.VITE_API_URL;
+const AI_BASE = import.meta.env.VITE_AI_URL;
 
 function getHeaders() {
   const token = localStorage.getItem('token');
